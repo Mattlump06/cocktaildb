@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useCallback } from 'react'
-import {useParams} from 'react-router-dom'
+
 
 const DRINK_URL = 'http://localhost:8080/api/' + "all"
 
@@ -13,10 +13,10 @@ const AppProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [cocktails, setCocktails] = useState([])
 
-  const fetchDrinks = async  () => {
+  const fetchDrinks = useCallback( async  () => {
     setLoading(true)
     try {
-      const response = await fetch( `${DRINK_URL}`, {mode: 'cors'})
+      const response = await fetch( `${DRINK_URL}${searchTerm}`, {mode: 'cors'})
       const data = await response.json()
       console.log(data)
       const { drinks } = data;
@@ -48,11 +48,11 @@ const AppProvider = ({ children }) => {
       console.log(error)
       setLoading(false)
     }
-  }
+  },[searchTerm])
 
   useEffect(() => {
     fetchDrinks()
-  }, [searchTerm])
+  }, [searchTerm, fetchDrinks])
 
   return <AppContext.Provider value={{
     loading,

@@ -2,11 +2,22 @@ package com.matt.cocktail.controllers;
 
 import com.matt.cocktail.domain.Drink;
 import com.matt.cocktail.repositories.DrinkRepository;
+import net.bytebuddy.TypeCache;
+import net.kaczmarzyk.spring.data.jpa.domain.Like;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
+import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import net.minidev.json.JSONArray;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -64,6 +75,18 @@ public class DrinkController {
         Iterable<Drink> response = drinkRepository.findByDrinkName(name);
         return response;
     }
+
+    @Transactional
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Drink>>get(
+            @And({
+                  @Spec(path = "drinkName", params = "name", spec = Like.class)
+          })Specification<Drink> spec,
+            Sort sort,
+            @RequestHeader HttpHeaders headers) {
+        final PagingResponse response
+    }
+            )
 
 
 
