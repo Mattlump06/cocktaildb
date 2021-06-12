@@ -76,17 +76,7 @@ public class DrinkController {
         return response;
     }
 
-    @Transactional
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Drink>>get(
-            @And({
-                  @Spec(path = "drinkName", params = "name", spec = Like.class)
-          })Specification<Drink> spec,
-            Sort sort,
-            @RequestHeader HttpHeaders headers) {
-        final PagingResponse response
-    }
-            )
+
 
 
 
